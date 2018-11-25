@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,10 +59,10 @@ public class MainActivity extends AppCompatActivity implements FragmentActions {
     }
 
     @Override
-    public void removeFragment(int position) {
+    public void removeFragment() {
 
-        mSectionsPagerAdapter.removeFragment(position);
-        mViewPager.setCurrentItem(position-1);
+        mSectionsPagerAdapter.removeFragment(mViewPager.getCurrentItem());
+        mViewPager.setCurrentItem(mViewPager.getCurrentItem()-1);
 
     }
 
@@ -109,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements FragmentActions {
                 public void onClick(View v) {
                     Intent resultIntent = new Intent(rootView.getContext(), MainActivity.class);
                     resultIntent.putExtra(ARG_SECTION_NUMBER, sectionNumber);
+                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_SINGLE_TOP );
                     PendingIntent resultPendingIntent = PendingIntent.getActivity(rootView.getContext(), 0, resultIntent,
                             PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements FragmentActions {
                 @Override
                 public void onClick(View view) {
                     Log.d(LOG_TAG, "Minus button click");
-                    mFragmentActions.removeFragment(sectionNumber);
+                    mFragmentActions.removeFragment();
                 }
             });
 
