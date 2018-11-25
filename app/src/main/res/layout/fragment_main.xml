@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity$PlaceholderFragment">
+
+
+    <Button
+        android:id="@+id/btnNewNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="@dimen/margin_top"
+        android:background="@mipmap/oval"
+        android:contentDescription="@string/image_background"
+        android:text="@string/create_new_notification"
+        android:textAppearance="@style/TextTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/recImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_bottom"
+        android:contentDescription="@string/image_background"
+        android:src="@mipmap/rectangle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabMinus"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_alignStart="@+id/recImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/recImageView"
+        app:layout_constraintStart_toStartOf="@+id/recImageView"
+        app:layout_constraintTop_toTopOf="@+id/recImageView"
+        app:srcCompat="@mipmap/minus" />
+
+    <TextView
+        android:id="@+id/tvPageNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/section_format"
+        android:textAppearance="@style/TextTheme.Number"
+        app:layout_constraintBottom_toBottomOf="@+id/recImageView"
+        app:layout_constraintTop_toTopOf="@+id/recImageView"
+        app:layout_constraintEnd_toEndOf="@id/recImageView"
+        app:layout_constraintStart_toStartOf="@id/recImageView"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabPlus"
+
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_alignEnd="@+id/recImageView"
+        app:layout_constraintBottom_toBottomOf="@+id/recImageView"
+        app:layout_constraintEnd_toEndOf="@+id/recImageView"
+        app:layout_constraintTop_toTopOf="@+id/recImageView"
+        app:srcCompat="@mipmap/plus" />
+
+
+</android.support.constraint.ConstraintLayout>
