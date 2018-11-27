@@ -42,14 +42,26 @@ public class MainActivity extends AppCompatActivity implements FragmentActions {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mSectionsPagerAdapter.addFragment(this);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+
     }
 
+//    @Override
+//    protected void onPostResume() {
+//        if(!mSectionsPagerAdapter.fragmentList.isEmpty()) {
+//            int page = getIntent().getIntExtra(PlaceholderFragment.ARG_SECTION_NUMBER, 0);
+//            Log.d(LOG_TAG, " Post Resume Page from intent  " + page);
+//            mViewPager.setCurrentItem(page);
+//        }
+//        super.onPostResume();
+//    }
+
     @Override
-    protected void onPostResume() {
-        int page = getIntent().getIntExtra(PlaceholderFragment.ARG_SECTION_NUMBER, 0);
-        Log.d(LOG_TAG, "Current page " + page);
+    protected void onNewIntent(Intent intent) {
+        int page = intent.getExtras().getInt(PlaceholderFragment.ARG_SECTION_NUMBER);
+        Log.d(LOG_TAG, "New Intent Page from intent  " + page);
         mViewPager.setCurrentItem(page);
-        super.onPostResume();
+        super.onNewIntent(intent);
     }
 
     @Override
@@ -72,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements FragmentActions {
         private NotificationManager notificationManager;
         private int index = 0;
         List<Integer> notificationList;
-        FragmentActions mFragmentActions;
+        FragmentActions fragmentActions;
 
         public PlaceholderFragment() {
         }
@@ -87,11 +99,11 @@ public class MainActivity extends AppCompatActivity implements FragmentActions {
         }
 
         public void setFragmentActions(FragmentActions activity){
-            mFragmentActions = activity;
+            fragmentActions = activity;
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             final int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER, 0);
@@ -108,9 +120,9 @@ public class MainActivity extends AppCompatActivity implements FragmentActions {
                 public void onClick(View v) {
                     Intent resultIntent = new Intent(rootView.getContext(), MainActivity.class);
                     resultIntent.putExtra(ARG_SECTION_NUMBER, sectionNumber);
-                    resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            | Intent.FLAG_ACTIVITY_SINGLE_TOP );
-                    PendingIntent resultPendingIntent = PendingIntent.getActivity(rootView.getContext(), 0, resultIntent,
+                    resultIntent.setFlags( Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    PendingIntent resultPendingIntent = PendingIntent.getActivity(rootView.getContext(),
+                            0, resultIntent,
                             PendingIntent.FLAG_UPDATE_CURRENT);
 
                     NotificationCompat.Builder mBuilder =
@@ -126,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements FragmentActions {
                     int id = Integer.parseInt(String.valueOf(sectionNumber).concat(String.valueOf(index++)));
                     notificationManager.notify(id, notification);
                     notificationList.add(id);
-                    Log.d(LOG_TAG, id + " Notification pushed " + sectionNumber);
+                    Log.d(LOG_TAG, " Notification " + id + " pushed with section number " + sectionNumber);
                 }
             });
 
@@ -138,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements FragmentActions {
                 @Override
                 public void onClick(View view) {
                     Log.d(LOG_TAG, "Minus button click");
-                    mFragmentActions.removeFragment();
+                    fragmentActions.removeFragment();
                 }
             });
 
@@ -147,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements FragmentActions {
                 @Override
                 public void onClick(View v) {
                     Log.d(LOG_TAG, "Plus button click");
-                    mFragmentActions.addFragment();
+                    fragmentActions.addFragment();
                 }
             });
             return rootView;
@@ -188,8 +200,7 @@ public class MainActivity extends AppCompatActivity implements FragmentActions {
 
         public void addFragment(FragmentActions activity) {
             fragmentList.add(PlaceholderFragment.newInstance(activity, sectionNumber++));
-            notifyDataSetChanged();
-        }
+            notifyDataSetChanged();        }
 
         public void removeFragment(int position) {
             fragmentList.get(position).onDestroy();
